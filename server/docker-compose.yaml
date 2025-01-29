@@ -1,7 +1,7 @@
 services:
   api:
     build:
-      context: ./server
+      context: ./
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
@@ -15,7 +15,7 @@ services:
     depends_on:
       - game-db
     volumes:
-      - ./server:/usr/src/app
+      - ./:/usr/src/app
       - /usr/src/app/node_modules
     command: pnpm start:dev
 
