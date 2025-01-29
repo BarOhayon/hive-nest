@@ -16,8 +16,8 @@ export class Game {
   @ManyToOne(() => Player)
   player1: Player;
 
-  @ManyToOne(() => Player)
-  player2: Player;
+  @ManyToOne(() => Player, { nullable: true })
+  player2?: Player | null;
 
   @Column({
     type: 'enum',
