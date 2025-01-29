@@ -13,7 +13,7 @@ export class PlayerService {
 
   async getById(id: string): Promise<Player> {
     const player = await this.playerRepository.findOneBy({ id });
-    if (!player) throw new NotFoundException();
+    if (!player) throw new NotFoundException(`Player with ID ${id} not found`);
     return player;
   }
 

@@ -22,7 +22,10 @@ export class GameService {
 
   async createGame(createGameDto: CreateGameDto): Promise<Game> {
     const player = await this.playerService.getById(createGameDto.player1Id);
-    if (!player) throw new Error('Player not found');
+    if (!player)
+      throw new NotFoundException(
+        `Player ${createGameDto.player1Id} not found`,
+      );
     const game = this.gameRepository.create({
       player1: { id: player.id, name: player.name },
       status: GameStatus.WAITING,
@@ -67,15 +70,7 @@ export class GameService {
   }
 
   async startGame(game: Game): Promise<Game> {
-    if (!game) throw new Error('Game not found');
-    try {
-      this.gameValidator.validateGameStart(game);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-      throw new Error('An unknown error occurred');
-    }
+    this.gameValidator.validateGameStart(game);
     game.status = GameStatus.IN_PROGRESS;
     return this.gameRepository.save(game);
   }
