@@ -1,0 +1,21 @@
+services:
+  game-db-test:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=hive_game_test
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=asdf
+    volumes:
+      - game_db_test_data:/var/lib/postgresql/data
+    ports:
+      - "8001:5432"
+
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - game-db-test
+
+volumes:
+  game_db_test_data:
